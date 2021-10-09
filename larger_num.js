@@ -2,16 +2,16 @@
     Write a JavaScript program that accept two integers and display the larger. */
 
 function larger_num(num1, num2) {
+    var larger;
         if (num1 > num2) {
-            console.log(num1);
-        } else if (num2 > num1) {
-            console.log(num2);
+            larger = num1;
         } else {
-            console.log(`Both numbers are ${num1}.`)
+            larger = num2;
         }
+    return console.log(larger)
         
     }
 
-    console.log(larger_num(1,3));
-    console.log(larger_num(3,1));
-    console.log(larger_num(1,1));
+    larger_num(1,2);
+    larger_num(3,1);
+    larger_num(4,4);
