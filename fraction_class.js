@@ -5,7 +5,11 @@ class Fraction {
     constructor(numerator, denominator) {
         this.n = numerator;
         this.d = denominator;
-
+        
+        if (this.d === 0) {
+            console.log(`Fractions cannot have 0 in their denominator.`)
+            return undefined
+        }
     }
 
     print() {
@@ -43,24 +47,52 @@ class Fraction {
         } else {
             console.log(`The answer is ${n} / ${d}!`)
         }
+        return [n, d]
     }
 
-    mulitplyBy(n2, d2) {
-        let mTop = this.n * n2;
-        let mBottom = this.d * d2;
+    mulitplyBy(n_multiply, d_multiply) {
+        let mTop = this.n * n_multiply;
+        let mBottom = this.d * d_multiply;
         this.simplify(mTop, mBottom);
+        return [mTop, mBottom]
     }
 
-    divideBy(n2, d2) {
-        let dTop = this.n * d2;
-        let dBottom = this.d * n2;
+    divideBy(n_divide, d_divide) {
+        let dTop = this.n * d_divide;
+        let dBottom = this.d * n_divide;
         this.simplify(dTop, dBottom);
+        return [dTop, dBottom]
+
+    }
+
+    commonDenom(n, d) {
+        let cdTop = n * this.d;
+        let cdBottom = d * this.d;
+        this.n = this.n * d;
+        this.d = this.d * d;
+        return [cdTop, cdBottom]
+    }
+
+    add(n2, d2) {
+        let [aTop, aBottom] = this.commonDenom(n2, d2);
+        aTop = aTop + this.n
+        this.simplify(aTop, aBottom)
+        return [aTop, aBottom]
+    }
+
+    subtract(n2, d2) {
+        let [sTop, sBottom] = this.commonDenom(n2, d2);
+        sTop = this.n - sTop
+        this.simplify(sTop, sBottom)
+        return [sTop, sBottom]
     }
 
 }
 
-let myFraction = new Fraction(4, 8)
-myFraction.divideBy(3,4)
+
+
+let myFraction = new Fraction(4, 5)
+myFraction.subtract(1, 20)
 
 
 
