@@ -5,7 +5,7 @@ class Fraction {
     constructor(numerator, denominator) {
         this.n = numerator;
         this.d = denominator;
-        
+
         if (this.d === 0) {
             console.log(`Fractions cannot have 0 in their denominator.`)
             return undefined
@@ -38,16 +38,16 @@ class Fraction {
             }
         }
         let gcf = commonFactors[commonFactors.length - 1]
-        n = n / gcf
-        d = d / gcf
+        let sTop = n / gcf
+        let sBottom = d / gcf
         if (n === d) {
-            console.log(`The answer is 1!`)
+            console.log(`${n} / ${d} simplified is 1!`)
         } else if (d === 1) {
-            console.log(`The answer is ${n}!`)
+            console.log(`${n} / ${d} simplified is ${sTop}.`)
         } else {
-            console.log(`The answer is ${n} / ${d}!`)
+            console.log(`${n} / ${d} simplified is ${sTop} / ${sBottom}.`)
         }
-        return [n, d]
+        return [sTop, sBottom]
     }
 
     mulitplyBy(n_multiply, d_multiply) {
@@ -87,12 +87,26 @@ class Fraction {
         return [sTop, sBottom]
     }
 
+    compare(n2, d2) {
+        let [compareTop, compareBottom] = this.commonDenom(n2, d2)
+        if (compareTop === this.n) {
+            console.log(`The fractions are the equal!`)
+        } else {
+            let [compareTop, compareBottom] = this.simplify(n2, d2)
+            let [n, d] = this.simplify()
+            if (compareTop > this.n) {
+                console.log(`${compareTop} / ${compareBottom} is larger than ${n} / ${d}!`)
+            }
+            if (compareTop < this.n) {
+                console.log(`${n} / ${d} is larger than ${compareTop} / ${compareBottom}!`)
+            }
+        }
+    }
+
 }
 
-
-
-let myFraction = new Fraction(4, 5)
-myFraction.subtract(1, 20)
+let myFraction = new Fraction(8, 10)
+myFraction.compare(15, 20)
 
 
 
