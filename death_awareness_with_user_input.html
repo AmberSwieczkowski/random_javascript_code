@@ -1,0 +1,79 @@
+<!-- @format -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body {
+        height: 1000px;
+        width: 1400px;
+        top: 0;
+        left: 0;
+        background-color: #12d1c8;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        margin: auto auto;
+        display: grid;
+      }
+      button {
+        padding: 20px;
+        cursor: pointer;
+      }
+      p {
+        color: grey;
+      }
+    </style>
+    <title>Now You Know</title>
+  </head>
+  <body>
+    <button onClick="countdown()" style="color: black">
+      Click if You Dare
+    </button>
+    <p id="input"></p>
+    <h1 id="years"></h1>
+    <h2 id="days"></h2>
+    <h3 id="minutes"></h3>
+
+    <script>
+      let clicked = false;
+      let countdown = () => {
+        let birthYear = prompt(
+          'Please enter your birth year as a four digit number ',
+          '1992'
+        );
+        try {
+          if (isNaN(birthYear) || birthYear.length !== 4)
+            throw 'Must be a four digit number. Calculations will be based on 1992.';
+        } catch (error) {
+          alert(error);
+          birthYear = 1992;
+        }
+        clicked = true;
+        birthYear = parseInt(birthYear);
+        let lifespan = 90;
+        let date = new Date();
+        let thisYear = date.getFullYear(); // 2022
+        let yearOfDeath = birthYear + lifespan;
+        let yearsUntilDeath = yearOfDeath - thisYear;
+        let daysUntilDeath = yearsUntilDeath * 365;
+        let days = daysUntilDeath.toLocaleString();
+        let minutesUntilDeath = daysUntilDeath * 1440;
+        let minutes = minutesUntilDeath.toLocaleString();
+        if (clicked) {
+          document.getElementById('input').innerHTML = `Using ${birthYear}.`;
+          document.getElementById(
+            'years'
+          ).innerHTML = `You have ${yearsUntilDeath} years left,`;
+          document.getElementById('days').innerHTML = `which is ${days} days,`;
+          document.getElementById(
+            'minutes'
+          ).innerHTML = `or ${minutes} minutes.`;
+        }
+      };
+    </script>
+  </body>
+</html>
