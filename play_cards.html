@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background-color: #dff58f;
+            display: grid;
+            grid-template-columns: 1fr 1fr 2fr;
+            font-size: 1rem;
+            text-align: center;
+
+        }
+        .red {
+            color: red;
+        }
+        .black {
+            color: black;
+
+        }
+        #unmatched {
+            display: grid;
+            grid-template-columns: auto auto;
+        }
+        #matchesColumn {
+            text-align: center;
+        }
+        #matches {
+            display: grid;
+            grid-template-columns: auto auto;
+        }
+        #matched-red {
+            display: grid;
+            grid-template-columns: auto auto;
+        }
+        #matched-black {
+            display: grid;
+            grid-template-columns: auto auto;
+        }
+    </style>
+    <title>Play Cards</title>
+</head>
+<body>
+    <div id="deckColumn">
+        <p id="deckCount">Number of Cards Left in Deck: <span id="deckCounter">0</span></p>
+        <button id='deckBtn' onClick=makeDeck()>New Game</button>
+        <button id='flipBtn' onClick=flipCard()>Flip Card</button>
+        <p id="flippedCard"></p>
+        <p id="flippedCards"></p>
+    </div>
+    <div id="flippedColumn">
+        <p id="flippedCount">Number of Cards Flipped: <span id="flippedCounter">0</span></p>
+        <h1>Your cards:</h1>
+        <div id="unmatched">
+            <div id="unmatched-red"></div>
+            <div id="unmatched-black"></div>
+        </div>
+    </div>
+    <div id="matchesColumn">
+        <p id="matchCount">You've Found <span id="matchCounter">0</span> Matches!</p>
+        <h1>Matches:</h1>
+        <div id="matches">
+            <div id="matched-red"></div>
+            <div id="matched-black"></div>
+        </div>
+
+    </div>
+
+        <script src="/play_cards.js"></script>
+</body>
+</html>
