@@ -1,0 +1,32 @@
+body {
+    background-color: #d8dce6;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+
+}
+
+button {
+    margin-top: 50px;
+}
+
+#sudokuGrid {
+    display: grid;
+    grid-template-columns: repeat(9, 50px);
+    margin: 30px auto;
+}
+
+.box {
+    height: 48px;
+    width: 48px;
+    border: 1px solid black;
+
+}
+
+.square1 {
+    color: black;
+}
