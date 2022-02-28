@@ -1,7 +1,10 @@
 let boxes = []
 let givenValuesByRows = []
 let givenValuesByColumn = []
+let givenValuesBySquare = []
 let possibleValuesByRows = []
+let possibleValuesByColumn = []
+let possibleValuesBySquare = []
 let allPossibleValues = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 let boxId = 1
 let boxValue = 0
@@ -46,19 +49,22 @@ let createGrid = () => {
         }
         console.log(boxes)
     }
+    getGivenValuesByColumn()
+    getPossibleValuesByColumn()
     getGivenValuesByRow()
     getPossibleValuesByRow()
-    getGivenValuesByColumn()
+    getGivenValuesBySquare()
 }
 
 class Box {
-    constructor({ boxId, boxValue, row, column, squareNumber }) {
+    constructor({ boxId, boxValue, row, column, squareNumber, possibleValuesRow, possibleValuesColumn }) {
         this.boxId = boxId
         this.boxValue = getBoxValue()
         this.row = row
         this.column = column
         this.squareNumber = squareNumber
-        this.possibleValues = allPossibleValues
+        this.possibleValuesRow = possibleValuesByRows
+        this.possibleValuesColumn = possibleValuesByColumn
     }
 }
 
@@ -121,6 +127,7 @@ let getGivenValuesByRow = () => {
 // Generates an array of values NOT listed in each row
 let getPossibleValuesByRow = () => {
     if (possibleValuesByRows.length < 9) {
+        getGivenValuesByRow()
         for (let row = 0; row < givenValuesByRows.length; row++) {
             let thisRow = givenValuesByRows[row]
             let possibleValues = [1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -143,7 +150,6 @@ let getGivenValuesByColumn = () => {
         let gridRow = 0
         while (gridRow < 9) {
             let valuesInThisColumn = []
-
             for (let gridColumn = 0; gridColumn < grid.length; gridColumn++) {
                 let thisColumnValue = grid[gridColumn][gridRow]
                 if (thisColumnValue !== ' ') {
@@ -154,7 +160,43 @@ let getGivenValuesByColumn = () => {
             givenValuesByColumn.push(valuesInThisColumn)
             gridRow++
         }
-        console.log(`givenValuesByColumn is ${givenValuesByColumn}`)
     }
     return givenValuesByColumn
 }
+
+// Generates an array of values NOT listed in each column
+let getPossibleValuesByColumn = () => {
+    if (possibleValuesByColumn.length < 9) {
+        getGivenValuesByColumn()
+        for (let column = 0; column < givenValuesByColumn.length; column++) {
+            let thisColumn = givenValuesByColumn[column]
+            let possibleValues = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+            for (let valueIndex = 0; valueIndex < thisColumn.length; valueIndex++) {
+                let eachValue = parseInt(thisColumn[valueIndex])
+                let getIndex = possibleValues.indexOf(eachValue)
+                if (getIndex > -1) {
+                    possibleValues.splice(getIndex, 1)
+                }
+            }
+            possibleValuesByColumn.push(possibleValues)
+        }
+        return possibleValuesByColumn
+    }
+}
+
+// Generates an array of values listed in each square
+let getGivenValuesBySquare = () => {
+    for (let squareIndex = 1; squareIndex < 10; squareIndex++) {
+        let valuesInThisSquare = []
+        for (eachBox of boxes) {
+            if (eachBox.squareNumber === squareIndex && eachBox.boxValue !== ' ') {
+                valuesInThisSquare.push(eachBox.boxValue)
+            }
+        }
+        valuesInThisSquare.sort()
+        givenValuesBySquare.push(valuesInThisSquare)
+    }
+    return givenValuesBySquare
+}
+
+// getPossibleValuesBySquare
