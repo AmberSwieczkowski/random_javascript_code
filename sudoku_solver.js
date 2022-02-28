@@ -5,6 +5,8 @@ let givenValuesBySquare = []
 let possibleValuesByRows = []
 let possibleValuesByColumn = []
 let possibleValuesBySquare = []
+let possibleValuesByBox = []
+let possibleBoxValue = []
 let allPossibleValues = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 let boxId = 1
 let boxValue = 0
@@ -19,7 +21,7 @@ const grid = [
     [' ', '9', ' ', ' ', '4', '2', '3', '7', ' '],
     ['6', '4', ' ', ' ', ' ', ' ', '5', '1', '8'],
 
-    ['9', ' ', '1', '4', ' ', '8', ' ', '8', ' '],
+    ['9', ' ', '1', '4', ' ', '8', ' ', '6', ' '],
     ['3', ' ', '6', ' ', ' ', '5', '4', '9', '1'],
     [' ', ' ', '7', ' ', '1', '6', '8', ' ', ' '],
 
@@ -49,15 +51,14 @@ let createGrid = () => {
         }
         console.log(boxes)
     }
-    getGivenValuesByColumn()
     getPossibleValuesByColumn()
-    getGivenValuesByRow()
     getPossibleValuesByRow()
-    getGivenValuesBySquare()
+    getPossibleValuesBySquare()
+    getPossibleValuesByBox()
 }
 
 class Box {
-    constructor({ boxId, boxValue, row, column, squareNumber, possibleValuesRow, possibleValuesColumn }) {
+    constructor({ boxId, boxValue, row, column, squareNumber, possibleValuesRow, possibleValuesColumn, possibleValuesSquare, possibleValuesBox }) {
         this.boxId = boxId
         this.boxValue = getBoxValue()
         this.row = row
@@ -65,7 +66,10 @@ class Box {
         this.squareNumber = squareNumber
         this.possibleValuesRow = possibleValuesByRows
         this.possibleValuesColumn = possibleValuesByColumn
+        this.possibleValuesSquare = possibleValuesBySquare
+        this.possibleValuesBox = 1
     }
+
 }
 
 // Assigns proper value to each box
@@ -186,17 +190,69 @@ let getPossibleValuesByColumn = () => {
 
 // Generates an array of values listed in each square
 let getGivenValuesBySquare = () => {
-    for (let squareIndex = 1; squareIndex < 10; squareIndex++) {
-        let valuesInThisSquare = []
-        for (eachBox of boxes) {
-            if (eachBox.squareNumber === squareIndex && eachBox.boxValue !== ' ') {
-                valuesInThisSquare.push(eachBox.boxValue)
+    if (givenValuesBySquare.length < 9) {
+        for (let squareIndex = 1; squareIndex < 10; squareIndex++) {
+            let valuesInThisSquare = []
+            for (eachBox of boxes) {
+                if (eachBox.squareNumber === squareIndex && eachBox.boxValue !== ' ') {
+                    valuesInThisSquare.push(eachBox.boxValue)
+                }
             }
+            valuesInThisSquare.sort()
+            givenValuesBySquare.push(valuesInThisSquare)
         }
-        valuesInThisSquare.sort()
-        givenValuesBySquare.push(valuesInThisSquare)
+        return givenValuesBySquare
     }
-    return givenValuesBySquare
 }
 
-// getPossibleValuesBySquare
+// Generates an array of values NOT listed in each square
+let getPossibleValuesBySquare = () => {
+    if (possibleValuesBySquare.length < 9) {
+        getGivenValuesBySquare()
+        for (let square = 0; square < givenValuesBySquare.length; square++) {
+            let thisSquare = givenValuesBySquare[square]
+            let possibleValues = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+            for (let valueIndex = 0; valueIndex < thisSquare.length; valueIndex++) {
+                let eachValue = parseInt(thisSquare[valueIndex])
+                let getIndex = possibleValues.indexOf(eachValue)
+                if (getIndex > -1) {
+                    possibleValues.splice(getIndex, 1)
+                }
+            }
+            possibleValuesBySquare.push(possibleValues)
+        }
+        return possibleValuesBySquare
+    }
+}
+
+let getPossibleValuesByBox = () => {
+    let numberOfEmptyBoxes = 0
+    let numberOfSolvedBoxes = 0
+    for (eachBox of boxes) {
+            if (eachBox.boxValue !== ' ') {
+                numberOfSolvedBoxes++
+                possibleBoxValues = []
+            } else {
+                numberOfEmptyBoxes++
+                newPossibleBoxValue = []
+                let possibleValuesForThisBox = eachBox.possibleValuesColumn[eachBox.column - 1]
+                let possibleValuesForThisRow = eachBox.possibleValuesRow[eachBox.row - 1]
+                let possibleValuesForThisSquare = eachBox.possibleValuesSquare[eachBox.squareNumber - 1]
+                for (eachColumnValue of possibleValuesForThisBox) {
+                    for (eachRowValue of possibleValuesForThisRow) {
+                        if (eachColumnValue === eachRowValue) {
+                            for (eachSquareValue of possibleValuesForThisSquare) {
+                                if (eachColumnValue === eachSquareValue)
+                                possibleBoxValues.push(eachColumnValue)
+                                console.log(`boxId: ${eachBox.boxId} eachColumnValue: ${eachColumnValue} eachRowValue: ${eachRowValue} eachSquareValue: ${eachSquareValue} if-possibleBoxValues: ${possibleBoxValues}`)
+                            }
+                        }
+                    }
+                    
+                }
+                possibleValuesByBox.push(possibleBoxValues)
+            }
+        }
+        console.log(`possibleValuesByBox: ${possibleValuesByBox} numberOfEmptyBoxes: ${numberOfEmptyBoxes}`)
+        return possibleValuesByBox
+}
