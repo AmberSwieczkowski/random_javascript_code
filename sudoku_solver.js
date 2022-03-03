@@ -6,9 +6,13 @@ let possibleValuesByRows = []
 let possibleValuesByColumn = []
 let possibleValuesBySquare = []
 let possibleValuesByBox = []
-let solution = {} // solution for a single box
-let solutions = [] // solutions for all boxes
+let solution = {} // possible solution for a single box
+let possibleSolutions = [] // possible solutions for all boxes
+let possibleSolutionsObject = {}
+let boxesWithSinglePossibleSolution = []
 let allPossibleValues = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+let numberOfEmptyBoxes = 0
+let numberOfSolvedBoxes = 0
 let boxId = 1
 let boxValue = 0
 let row = 1
@@ -16,6 +20,7 @@ let column = 1
 let squareNumber = 0
 let gridRowIndex = 0
 let gridColumnIndex = 0
+let solved = false
 
 const grid = [
     ['7', '3', ' ', '8', '6', '1', ' ', ' ', ' '],
@@ -237,9 +242,10 @@ class PossibleSolution {
 }
 
 let getPossibleValuesByBox = () => {
-    if (possibleValuesByBox.length < 9) {
-        let numberOfEmptyBoxes = 0
-        let numberOfSolvedBoxes = 0
+    if (possibleSolutions.length <= numberOfEmptyBoxes) {
+        numberOfEmptyBoxes = 0
+        numberOfSolvedBoxes = 0
+        let thisBoxId = 0
         for (eachBox of boxes) {
             possibleValuesForThisBox = []
             let possibleSolution;
@@ -259,12 +265,48 @@ let getPossibleValuesByBox = () => {
                     }
                 }
                 possibleSolution = new PossibleSolution({ thisBoxId: eachBox.boxId, possibleValuesForThisColumn, possibleValuesForThisRow, possibleValuesForThisSquare, possibleValuesForThisBox })
-                solutions.push(possibleSolution)
+                possibleSolutions.push(possibleSolution)
+                thisBoxId = eachBox.boxId
+                possibleSolutionsObject[thisBoxId] = possibleSolution
                 possibleValuesByBox.push(possibleValuesForThisBox) // possible values for all boxes
                 numberOfEmptyBoxes++
             }
         }
-        console.log(`solutions: ${solutions}`)
         console.log(`numberOfSolvedBoxes: ${numberOfSolvedBoxes}, numberOfEmptyBoxes: ${numberOfEmptyBoxes}`)
+    }
+}
+
+let getBoxesWithSinglePossibleSolution = () => {
+    if (boxesWithSinglePossibleSolution.length < 9) {
+        boxesWithSinglePossibleSolution = {}
+        for (eachPossibleSolution of possibleSolutions) {
+            if (eachPossibleSolution.possibleValuesForThisBox.length === 1) {
+                thisBoxId = eachPossibleSolution.thisBoxId
+                boxesWithSinglePossibleSolution[thisBoxId] = eachPossibleSolution.possibleValuesForThisBox[0]
+                console.log(`boxesWithSinglePossibleSolution: ${boxesWithSinglePossibleSolution}`)
+            }
+        }
+        console.log(boxesWithSinglePossibleSolution)
+        return boxesWithSinglePossibleSolution
+    }
+}
+
+let getSolution = () => {
+    if (!solved) {
+        getBoxesWithSinglePossibleSolution()
+        let solutionContainer = document.getElementById('solutionGrid')
+        for (eachBox of boxes) {
+            let solutionBox = document.createElement('div')
+            solutionBox.classList.add(`box`)
+            if (eachBox.boxValue !== ' ') {
+                solutionBox.innerHTML = eachBox.boxValue
+            } else if (boxesWithSinglePossibleSolution.hasOwnProperty(eachBox.boxId)) {
+                let thisBoxSolution = boxesWithSinglePossibleSolution[eachBox.boxId]
+                solutionBox.innerHTML = thisBoxSolution
+                console.log(`boxId: ${eachBox.boxId}, thisBoxSolution: ${thisBoxSolution}`)
+            }
+            solutionContainer.appendChild(solutionBox)
+        }
+        solved = true
     }
 }

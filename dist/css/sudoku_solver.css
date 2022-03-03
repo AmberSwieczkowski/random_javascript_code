@@ -16,13 +16,19 @@ body {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: auto auto;
+      grid-template-columns: auto auto;
+  -webkit-column-gap: 50px;
+          column-gap: 50px;
 }
 
 button {
   margin-top: 50px;
 }
 
-#sudokuGrid {
+#sudokuGrid, #solutionGrid {
   display: -ms-grid;
   display: grid;
   -ms-grid-columns: (50px)[9];

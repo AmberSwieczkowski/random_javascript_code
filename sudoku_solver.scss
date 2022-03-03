@@ -7,6 +7,9 @@ body {
     width: 100vw;
     display: flex;
     flex-direction: column;
+    display: grid;
+    grid-template-columns: auto auto;
+    column-gap: 50px;
 
 }
 
@@ -14,7 +17,7 @@ button {
     margin-top: 50px;
 }
 
-#sudokuGrid {
+#sudokuGrid, #solutionGrid {
     display: grid;
     grid-template-columns: repeat(9, 50px);
     margin: 30px auto;

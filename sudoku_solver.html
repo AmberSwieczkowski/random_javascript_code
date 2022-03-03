@@ -9,23 +9,9 @@
 </head>
 <body>
     <button onClick=createGrid()>Create Grid</button>
-    <div id="sudokuGrid">
-    <!-- <div id="leftColumn" class='gridColumns'>
-            <div id="1" class="gridNumber">1</div>
-            <div id="2" class="gridNumber">2</div>
-            <div id="3" class="gridNumber">3</div>
-        </div>
-        <div id="middleColumn" class='gridColumns'>
-            <div id="4" class="gridNumber">4</div>
-            <div id="5" class="gridNumber">5</div>
-            <div id="6" class="gridNumber">6</div>
-        </div>
-        <div id="rightColumn" class='gridColumns'>
-            <div id="7" class="gridNumber">7</div>
-            <div id="8" class="gridNumber">8</div>
-            <div id="9" class="gridNumber">9</div>
-        </div> -->
-    </div>
+    <button onClick=getSolution()>Get Solution</button>
+    <div id="sudokuGrid"></div>
+    <div id="solutionGrid"></div>
 
     <script src="/sudoku_solver.js"></script>
 </body>
