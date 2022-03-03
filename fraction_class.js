@@ -1,19 +1,31 @@
 class Fraction {
-    nfactors = []
-    dfactors = []
-    commonFactors = []
     constructor(numerator, denominator) {
-        this.n = numerator;
-        this.d = denominator;
+        this.n = Math.abs(numerator);
+        this.d = Math.abs(denominator);
+        this.decimal = this.n / this.d
+        this.negative = false
 
-        if (this.d === 0) {
-            console.log(`Fractions cannot have 0 in their denominator.`)
-            return undefined
+            if (this.d === 0) {
+                throw new Error('Denominator cannot be zero!')  // This ends the function when there is an error, so the next if statement is never evaluated
+            }
+            this.simplify() // This doesn't happen if the denominator is 0 because it is an error
+
+
+        if (numerator < 0 && denominator > 0 || numerator > 0 && denominator < 0) {
+            this.negative = true
         }
     }
 
-    print() {
-        console.log(this.n, this.d)
+    printFraction() {
+        console.log(`${this.n} / ${this.d}`)
+    }
+
+    getNumerator() {
+        console.log(`The numerator is ${this.n}.`)
+    }
+
+    getDenominator() {
+        console.log(`The denominator is ${this.d}.`)
     }
 
     simplify(n = this.n, d = this.d) {
@@ -38,12 +50,15 @@ class Fraction {
             }
         }
         let gcf = commonFactors[commonFactors.length - 1]
+        console.log(`gcf is ${gcf}`)
         let sTop = n / gcf
         let sBottom = d / gcf
         if (n === d) {
             console.log(`${n} / ${d} simplified is 1!`)
         } else if (d === 1) {
             console.log(`${n} / ${d} simplified is ${sTop}.`)
+        } else if (n === sTop && d === sBottom) {
+            console.log(`${n} / ${d} is fully simplified!`)
         } else {
             console.log(`${n} / ${d} simplified is ${sTop} / ${sBottom}.`)
         }
@@ -103,11 +118,34 @@ class Fraction {
         }
     }
 
+    convertToDecimal() {
+        let decimal = this.n / this.d;
+        console.log(`${this.n} / ${this.d} is equal to ${decimal}.`)
+        return decimal;
+    }
+
+    answer() {
+
+    }
+
 }
 
-let myFraction = new Fraction(8, 10)
-myFraction.compare(15, 20)
+// let myFraction = new Fraction(8, 10)
+// myFraction.printFraction()
+
+let f1 = new Fraction(-1, 0)
+// let f2 = new Fraction(3, 6)
+// f1.mulitplyBy(3, 2)
+console.log(f1)
 
 
+/* TODO: 
+1. Rewrite this class so that you can chain methods
+(you'll have to RETURN 'THIS' at the end of each method)
+2. Allow for only one input such as
+fraction1.add(fraction2)
+3. Put Simplify method into the constructor
+4. Move console log out of the simplify method
+*/
 
 
