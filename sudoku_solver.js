@@ -6,7 +6,8 @@ let possibleValuesByRows = []
 let possibleValuesByColumn = []
 let possibleValuesBySquare = []
 let possibleValuesByBox = []
-let possibleBoxValue = []
+let solution = {} // solution for a single box
+let solutions = [] // solutions for all boxes
 let allPossibleValues = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 let boxId = 1
 let boxValue = 0
@@ -225,34 +226,45 @@ let getPossibleValuesBySquare = () => {
     }
 }
 
+class PossibleSolution {
+    constructor({ thisBoxId, possibleValuesForThisColumn, possibleValuesForThisRow, possibleValuesForThisSquare, possibleValuesForThisBox }) {
+        this.thisBoxId = thisBoxId
+        this.possibleValuesForThisColumn = possibleValuesForThisColumn
+        this.possibleValuesForThisRow = possibleValuesForThisRow
+        this.possibleValuesForThisSquare = possibleValuesForThisSquare
+        this.possibleValuesForThisBox = possibleValuesForThisBox
+    }
+}
+
 let getPossibleValuesByBox = () => {
-    let numberOfEmptyBoxes = 0
-    let numberOfSolvedBoxes = 0
-    for (eachBox of boxes) {
+    if (possibleValuesByBox.length < 9) {
+        let numberOfEmptyBoxes = 0
+        let numberOfSolvedBoxes = 0
+        for (eachBox of boxes) {
+            possibleValuesForThisBox = []
+            let possibleSolution;
             if (eachBox.boxValue !== ' ') {
                 numberOfSolvedBoxes++
-                possibleBoxValues = []
             } else {
-                numberOfEmptyBoxes++
-                newPossibleBoxValue = []
-                let possibleValuesForThisBox = eachBox.possibleValuesColumn[eachBox.column - 1]
-                let possibleValuesForThisRow = eachBox.possibleValuesRow[eachBox.row - 1]
-                let possibleValuesForThisSquare = eachBox.possibleValuesSquare[eachBox.squareNumber - 1]
-                for (eachColumnValue of possibleValuesForThisBox) {
+                solution = {}
+                let possibleValuesForThisColumn = eachBox.possibleValuesColumn[eachBox.column - 1] // possible column values per box
+                let possibleValuesForThisRow = eachBox.possibleValuesRow[eachBox.row - 1] // possible row values per box
+                let possibleValuesForThisSquare = eachBox.possibleValuesSquare[eachBox.squareNumber - 1] // possible square values per box
+                for (eachColumnValue of possibleValuesForThisColumn) {
                     for (eachRowValue of possibleValuesForThisRow) {
-                        if (eachColumnValue === eachRowValue) {
-                            for (eachSquareValue of possibleValuesForThisSquare) {
-                                if (eachColumnValue === eachSquareValue)
-                                possibleBoxValues.push(eachColumnValue)
-                                console.log(`boxId: ${eachBox.boxId} eachColumnValue: ${eachColumnValue} eachRowValue: ${eachRowValue} eachSquareValue: ${eachSquareValue} if-possibleBoxValues: ${possibleBoxValues}`)
-                            }
+                        for (eachSquareValue of possibleValuesForThisSquare) {
+                            if (eachColumnValue === eachRowValue && eachColumnValue === eachSquareValue)
+                                possibleValuesForThisBox.push(eachColumnValue) // array of possible values for this one box
                         }
                     }
-                    
                 }
-                possibleValuesByBox.push(possibleBoxValues)
+                possibleSolution = new PossibleSolution({ thisBoxId: eachBox.boxId, possibleValuesForThisColumn, possibleValuesForThisRow, possibleValuesForThisSquare, possibleValuesForThisBox })
+                solutions.push(possibleSolution)
+                possibleValuesByBox.push(possibleValuesForThisBox) // possible values for all boxes
+                numberOfEmptyBoxes++
             }
         }
-        console.log(`possibleValuesByBox: ${possibleValuesByBox} numberOfEmptyBoxes: ${numberOfEmptyBoxes}`)
-        return possibleValuesByBox
+        console.log(`solutions: ${solutions}`)
+        console.log(`numberOfSolvedBoxes: ${numberOfSolvedBoxes}, numberOfEmptyBoxes: ${numberOfEmptyBoxes}`)
+    }
 }
