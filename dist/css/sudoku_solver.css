@@ -28,7 +28,7 @@ button {
   margin-top: 50px;
 }
 
-#sudokuGrid, #solutionGrid {
+#sudokuGrid, #solutionGrid, #sudokuGameboard, #solutionGamboard {
   display: -ms-grid;
   display: grid;
   -ms-grid-columns: (50px)[9];

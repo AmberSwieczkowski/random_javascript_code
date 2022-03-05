@@ -8,11 +8,16 @@
     <title>Sudoku Solver</title>
 </head>
 <body>
-    <button onClick=createGrid()>Create Grid</button>
-    <button onClick=getSolution()>Get Solution</button>
+    <!-- <button id='createGridButton' onClick=createGrid()>Create Grid</button>
+    <button id='getSolutionButton' onClick=getSolution() disabled>Get Solution</button>
     <div id="sudokuGrid"></div>
-    <div id="solutionGrid"></div>
+    <div id="solutionGrid"></div> -->
+    <button id='createNewGame' onClick=newGame()>New Game</button>
+    <button id='getSolutionButton' onClick=getSolution() disabled>Get Solution</button>
+    <div id="sudokuGameboard"></div>
+    <div id="solutionGameboard"></div>
 
-    <script src="/sudoku_solver.js"></script>
+    <!-- <script src="/sudoku_solver.js"></script> -->
+    <script src="/sudoku_solver_2.js"></script>
 </body>
 </html>
