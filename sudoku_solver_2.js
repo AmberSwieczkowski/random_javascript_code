@@ -28,54 +28,38 @@ class SudokuGrid {
         }
         console.log(this.allBoxes)
         let [solvedBoxes, numberOfSolvedBoxes, unsolvedBoxes, numberOfUnsolvedBoxes] = getSolvedAndUnsolvedBoxes(this.allBoxes)
-        this.createGrid(this.grid)
-        // return allBoxes
-        this.updateGrid()
-    }
 
-    createGrid(grid) {
-        let gameboard = document.getElementById('sudokuGameboard')
-        let boxes = Object.entries(grid)
-        for (eachBox of boxes) {
-            let thisBoxValue = eachBox[1]
-            let sudokuBox = document.createElement('div')
-            sudokuBox.classList.add('box')
-            sudokuBox.innerHTML = thisBoxValue
-            gameboard.appendChild(sudokuBox)
-        }
-        // console.log(boxes)
-    }
-
-    deleteGrid() {
-        let gameboard = document.getElementById('sudokuGameboard')
-        while (gameboard.firstChild) {
-            gameboard.removeChild(gameboard.firstChild)
+        this.getBoxes = () => {
+            return this.allBoxes
         }
     }
 
-    updateGrid() {
-        this.deleteGrid()
-        originalGrid[13031] = '5'
-        this.createGrid(this.grid)
-        // console.log(this.grid)
-    }
+        createGrid = (grid) => {
+            let gameboard = document.getElementById('sudokuGameboard')
+            let boxes = Object.entries(grid)
+            for (eachBox of boxes) {
+                let thisBoxValue = eachBox[1]
+                let sudokuBox = document.createElement('div')
+                sudokuBox.classList.add('box')
+                sudokuBox.innerHTML = thisBoxValue
+                gameboard.appendChild(sudokuBox)
+            }
+            // console.log(boxes)
+        }
 
-}
+        deleteGrid = () => {
+            let gameboard = document.getElementById('sudokuGameboard')
+            while (gameboard.firstChild) {
+                gameboard.removeChild(gameboard.firstChild)
+            }
+        }
 
-let getNewBoxes = (grid) => {
-    let newBoxes = Object.entries(grid)
-    let allBoxes = {}
-    for (eachBox of newBoxes) {
-        thisBoxKey = eachBox[0]
-        thisBoxValue = eachBox[1]
-        thisBoxId = thisBoxKey.slice(-2) // Last two numbers from key
-        let box = new Box({ square: thisBoxKey[4], row: thisBoxKey[1], column: thisBoxKey[2], boxValue: thisBoxValue, boxId: thisBoxId })
-        allBoxes[thisBoxId] = box
-    }
-    console.log(allBoxes)
-    let [solvedBoxes, numberOfSolvedBoxes, unsolvedBoxes, numberOfUnsolvedBoxes] = getSolvedAndUnsolvedBoxes(allBoxes)
-    createGrid(grid)
-    return allBoxes
+        updateGrid = () => {
+            this.deleteGrid()
+            originalGrid[13031] = '5'
+            this.createGrid(this.grid)
+        }
+
 }
 
 let getSolvedAndUnsolvedBoxes = (boxes) => {
@@ -117,8 +101,16 @@ let newGame = () => {
     document.getElementById('createNewGame').disabled = true
     let solutionButton = document.getElementById('getSudokuSolutionButton')
     solutionButton.removeAttribute('disabled')
-    new SudokuGrid(originalGrid)
-    // getNewBoxes(originalGrid)
+    let theGame = new SudokuGrid(originalGrid)
+    theGame.createGrid(originalGrid)
+    return theGame
+}
+
+let getSolution = () => {
+    document.getElementById('getSudokuSolutionButton').disabled = true
+    let theGame = newGame()
+    theGame.updateGrid()
+    console.log('updated')
 
 }
 
