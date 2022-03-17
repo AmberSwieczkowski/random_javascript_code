@@ -1,0 +1,26 @@
+{
+  "name": "random_javascript_code",
+  "version": "1.0.0",
+  "description": "",
+  "main": "class_inheritance.js",
+  "scripts": {
+    "test": "jest --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amberm31/random_javascript_code.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/amberm31/random_javascript_code/issues"
+  },
+  "homepage": "https://github.com/amberm31/random_javascript_code#readme",
+  "devDependencies": {
+    "jest": "^27.5.1"
+  },
+  "dependencies": {
+    "babel-types": "^6.26.0"
+  }
+}
