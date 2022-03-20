@@ -1,3 +1,4 @@
+const { describe } = require('yargs')
 const LinkedList = require('./linkedList')
 
 describe('#insertAtHead', () => {
@@ -30,7 +31,7 @@ describe('#getByIndex', () => {
         })
     })
 
-    describe('With index 0.', () => {
+    describe('Index of 0.', () => {
         test('Returns the head.', () => {
             const ll = LinkedList.fromValues(10, 20)
 
@@ -38,11 +39,31 @@ describe('#getByIndex', () => {
         })
     })
 
-    describe('With index  in the middle.', () => {
+    describe('Index in the middle.', () => {
         test('Returns the element at that index.', () => {
             const ll = LinkedList.fromValues(10, 20, 30, 40)
 
             expect(ll.getByIndex(2).value).toBe(30)
         })
     })
+})
+
+describe('#insertAtIndex', () => {
+    describe('Index less than 0', () => {
+        test('Does not insert anything')
+        const ll = LinkedList.fromValues(10,20)
+        ll.insertAtIndex(-1, 30)
+
+
+    })
+
+    describe('Index greater than list length.', () => {
+    })
+
+    describe('Index of 0.', () => {
+    })
+
+    describe('Index in the middle.', () => {
+    })
+
 })
