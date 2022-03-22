@@ -50,20 +50,43 @@ describe('#getByIndex', () => {
 
 describe('#insertAtIndex', () => {
     describe('Index less than 0', () => {
-        test('Does not insert anything')
-        const ll = LinkedList.fromValues(10,20)
-        ll.insertAtIndex(-1, 30)
+        test('Does not insert anything', () => {
+            const ll = LinkedList.fromValues(10, 20)
+            ll.insertAtIndex(-1, 30)
 
-
+            expect(ll.length).toBe(2)
+        })
     })
 
     describe('Index greater than list length.', () => {
+        test('Does not insert anything', () => {
+            const ll = LinkedList.fromValues(10, 20)
+            ll.insertAtIndex(5, 30)
+
+            expect(ll.length).toBe(2)
+        })
     })
 
     describe('Index of 0.', () => {
+        test('Inserts at head.', () => {
+            const ll = LinkedList.fromValues(10, 20)
+            ll.insertAtIndex(0, 30)
+
+            expect(ll.head.value).toBe(30)
+            expect(ll.head.next.value).toBe(10)
+            expect(ll.length).toBe(3)
+        })
     })
 
     describe('Index in the middle.', () => {
-    })
+        test('Inserts at given index.', () => {
+            const ll = LinkedList.fromValues(10, 20, 30, 40)
+            ll.insertAtIndex(2, 50)
+            const node = ll.getByIndex(2)
 
+            expect(ll.head.value).toBe(50)
+            expect(ll.head.next.value).toBe(30)
+            expect(ll.length).toBe(5)
+        })
+    })
 })
