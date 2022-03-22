@@ -1,4 +1,3 @@
-const { describe } = require('yargs')
 const LinkedList = require('./linkedList')
 
 describe('#insertAtHead', () => {
@@ -84,9 +83,62 @@ describe('#insertAtIndex', () => {
             ll.insertAtIndex(2, 50)
             const node = ll.getByIndex(2)
 
-            expect(ll.head.value).toBe(50)
-            expect(ll.head.next.value).toBe(30)
+            expect(node.value).toBe(50)
+            expect(node.next.value).toBe(30)
             expect(ll.length).toBe(5)
+        })
+    })
+})
+
+describe('#removeHead', () => {
+    test('Removes the head.', () => {
+        const ll = LinkedList.fromValues(10, 20, 30)
+        ll.removeHead()
+
+        expect(ll.head.value).toBe(20)
+        expect(ll.length).toBe(2)
+    })
+})
+
+describe('#removeAtIndex', () => {
+    describe('Index less than 0', () => {
+        test('Does not remove anything', () => {
+            const ll = LinkedList.fromValues(10, 20)
+            ll.removeAtIndex(-1)
+
+            expect(ll.length).toBe(2)
+        })
+    })
+
+    describe('Index greater than list length.', () => {
+        test('Does not remove anything', () => {
+            const ll = LinkedList.fromValues(10, 20)
+            ll.removeAtIndex(5)
+
+            expect(ll.length).toBe(2)
+        })
+    })
+
+    describe('Index of 0.', () => {
+        test('Remove the head.', () => {
+            const ll = LinkedList.fromValues(10, 20, 30)
+            ll.removeAtIndex(0)
+
+            expect(ll.head.value).toBe(20)
+            expect(ll.head.next.value).toBe(30)
+            expect(ll.length).toBe(2)
+        })
+    })
+
+    describe('Index in the middle.', () => {
+        test('Remove at given index.', () => {
+            const ll = LinkedList.fromValues(10, 20, 30, 40)
+            ll.removeAtIndex(2)
+            const node = ll.getByIndex(1)
+
+            expect(node.value).toBe(20)
+            expect(node.next.value).toBe(40)
+            expect(ll.length).toBe(3)
         })
     })
 })
